@@ -1,0 +1,17 @@
+FROM amd64/ubuntu:xenial
+
+RUN apt-get update 
+
+RUN apt-get install -y vim wget lsb-release
+
+RUN wget http://archive.via.com.tw/viaai.sh && \
+chmod +x viaai.sh && ./viaai.sh && rm viaai.sh &&\
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends viaai-stack
+
+CMD ["bash"]
+
+# Setup for nvidia-docker
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=10.0"
+
